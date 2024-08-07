@@ -5,7 +5,7 @@ import math
 
 # Define Kalman filter parameters
 dt = 0.005  # Time step
-gps_hz = 1  # GPS measurement frequency
+gps_hz = 0.7  # GPS measurement frequency
 
 
 gps_period = 1 / gps_hz
@@ -36,7 +36,7 @@ H = np.array([
   ])  # Measurement matrix
 
 
-Q = np.eye(6) * 0.001  # Process noise covariance
+Q = np.eye(6) * 0.01  # Process noise covariance
 R = np.eye(3) * 0.01  # Measurement noise covariance
 
 # Generate simulated data
@@ -96,6 +96,7 @@ for i in range(n):
   
 # Plot paths
 plt.figure()
+plt.grid()
 options = {'markersize': 8, 'linewidth': 2, 'alpha': 0.6}
 plt.plot(actual_path[0], actual_path[1], label='Actual Path', **options)
 plt.plot(gps_measured_path[0], gps_measured_path[1], label='GPS Measured Path', **options)
@@ -106,4 +107,9 @@ plt.xlabel('X')
 plt.ylabel('Y')
 plt.title('2D Path')
 
-plt.show()
+# make figure bigger
+fig = plt.gcf()
+fig.set_size_inches(12, 8)
+
+# save the plot
+plt.savefig('kalman_filter.png')
